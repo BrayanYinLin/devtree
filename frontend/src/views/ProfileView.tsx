@@ -1,3 +1,50 @@
+/*
+
+
+export default function ProfileView() {
+
+    //Parte 2
+
+    const updateProfileMutation = useMutation({
+        mutationFn: updateProfile,
+        onError:(error)=>{
+            toast.error(error.message)
+        },
+        onSuccess:(data)=>{
+            toast.success(data)
+            queryClient.invalidateQueries({queryKey: ['user']})
+        }
+    })
+
+    const uploadImageMutation = useMutation({
+        mutationFn: uploadImage,
+        onError:(error)=>{
+            toast.error(error.message)
+        },
+        onSuccess:(data)=>{
+            //console.log(data)
+            queryClient.setQueryData(['user'], (prevData: User) => {
+                return {
+                    ...prevData,
+                    image: data
+                }
+            })
+
+        }
+    })
+
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files){ 
+            console.log(e.target.files[0])
+        }
+    }
+
+
+    return (
+        <form 
+            className="bg-white p-10 rounded-lg space-y-5"
+            onSubmit={() => {}}
 import { useForm } from "react-hook-form"
 import ErrorMessage from "../components/ErrorMessage"
 import { useQueryClient, useMutation } from "@tanstack/react-query"
@@ -49,6 +96,7 @@ export default function ProfileView() {
                     type="text"
                     className="border-none bg-slate-100 rounded-lg p-2"
                     placeholder="handle o Nombre de Usuario"
+                />
                     {...register('handle', {
                         required: "El nombre de usuario es obligatorio"
                     })}
@@ -63,6 +111,7 @@ export default function ProfileView() {
                 <textarea
                     className="border-none bg-slate-100 rounded-lg p-2"
                     placeholder="Tu Descripción"
+                />
                     {...register('description', {
                         required: "la descripcion es obligatoria"
                     })}
@@ -80,6 +129,30 @@ export default function ProfileView() {
                     name="handle"
                     className="border-none bg-slate-100 rounded-lg p-2"
                     accept="image/*"
+                    onChange={ () => {} }
+                />
+            </div>
+
+
+
+            {/* Parte 2 */}
+            <div className="grid grid-cols-1 gap-2"> 
+                <label
+                    htmlFor="handle"
+                >
+                    Imagen:
+                </label>
+                <input
+                    id="image"
+                    type="file"
+                    name="handle"
+                    className="border-none bg-slate-100 rounded-lg p-2"
+                    accept="image/*"
+                    onChange={handleChange}
+                />
+            </div>
+
+
                     onChange={() => { }}
                 />
             </div>
@@ -92,3 +165,6 @@ export default function ProfileView() {
         </form>
     )
 }
+
+
+*/

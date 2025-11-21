@@ -5,7 +5,9 @@ import  jwt  from 'jsonwebtoken'
 import { checkPassword, hashPassword } from '../utils/auth'
 import slug from 'slug'
 import { generateJWT } from '../utils/jwt'
-
+import formidable from 'formidable'
+import cloudinary from '../config/cloudinary'
+import { v4 } from 'uuid'
 
 export const createAccount = async(req: Request, res: Response)=>{
 
@@ -72,6 +74,39 @@ export const login = async (req: Request, res: Response) => {
 
 }
 
+export const uploadImage = async(req: Request, res: Response) => {
+
+    const form = formidable({multiples: false}) 
+    form.parse(req, (error, fields, files) => {
+        //console.log(files.file)
+        cloudinary.uploader.upload(files.file[0].filepath, {public_id: uuid()}, async function(error, result){
+            //console.log(error)
+            //console.log(result)
+            if(error){
+                const error = new Error("Hubo un error al subir la imagen")
+                return res.status(500).json({error: error.message})
+            }
+
+            if(result){
+                if(result){
+                    req.user.iamge = result.secure_url
+                    await req.user.save()
+                    res.json({image: result.secure_url})
+                }
+
+            }
+
+        })
+
+    }) 
+
+    try{
+        console.log('Desde uploadImage')
+    }catch(e){
+        const error = new Error("Hubo un error")
+        return res.status(500).json({error: error.message})
+    }
+}
 export const getUser = async(req:Request, res: Response) => {
     res.json(req.user)
 }
