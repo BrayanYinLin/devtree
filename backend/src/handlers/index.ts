@@ -7,7 +7,7 @@ import slug from 'slug'
 import { generateJWT } from '../utils/jwt'
 import formidable from 'formidable'
 import cloudinary from '../config/cloudinary'
-import { v4 } from 'uuid'
+import { v4 as uuid} from 'uuid'
 
 export const createAccount = async(req: Request, res: Response)=>{
 
