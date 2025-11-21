@@ -1,12 +1,14 @@
 import {Request, Response} from 'express'
 import {validationResult} from 'express-validator'
 import User from "../models/User"
+import  jwt  from 'jsonwebtoken'
 import { checkPassword, hashPassword } from '../utils/auth'
 import slug from 'slug'
 import { generateJWT } from '../utils/jwt'
 import formidable from 'formidable'
 import cloudinary from '../config/cloudinary'
 import { v4 } from 'uuid'
+
 export const createAccount = async(req: Request, res: Response)=>{
 
 
@@ -103,5 +105,31 @@ export const uploadImage = async(req: Request, res: Response) => {
     }catch(e){
         const error = new Error("Hubo un error")
         return res.status(500).json({error: error.message})
+    }
+}
+export const getUser = async(req:Request, res: Response) => {
+    res.json(req.user)
+}
+
+export const updateProfile = async(req: Request, res:Response) => {
+    try {
+        const  {description} = req.body
+
+        const handle = slug(req.body.handle,'')
+        const handleExists = await User.findOne({handle})
+        if(handleExists && handleExists.email !== req.user.email){
+            const error = new Error('nombre de usuario no disponible')
+            return res.status(409).json({error: error.message})
+        }
+
+        req.user.description = description
+        req.user.handle = handle
+        
+        
+
+
+    } catch (e) {
+        const error = new Error("Hubo un error")
+        return res.status(500).json({error:error.message})
     }
 }
