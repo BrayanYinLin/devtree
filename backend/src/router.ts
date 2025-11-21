@@ -37,16 +37,6 @@ router.patch('/user',
     
     authenticate, updateProfile)
 
-router.get('/user', authenticate, getUser)
-router.patch('/user',
-    //validación:
-    body('handle').notEmpty().withMessage('El handle no puede ir vacío'),
-    body('description').notEmpty().withMessage('La descripción no puede ir vacía'),
-    //el middleware
-    handleInputErrors,
-    authenticate,
-    updateProfile
-)
 
 router.post('user/image', authenticate, uploadImage)
 
