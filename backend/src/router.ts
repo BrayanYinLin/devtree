@@ -1,7 +1,7 @@
 import {Router} from 'express'
 import {body} from 'express-validator' //body permite validar el req.body
 import User from './models/User'
-import { createAccount, login } from './handlers'
+import { createAccount, login, uploadImage } from './handlers'
 import { handleInputErrors } from './middleware/validation'
 
 //Permite configurar un objeto con todas las rutas que después podemos agregar a la app principal server.ts
@@ -24,5 +24,18 @@ router.post('/auth/login',
     body('password').notEmpty().withMessage('El password es muy corto, mínimo 8 caracteres'),
 
     login)
+
+router.get('/user', authenticate, getUser)
+router.patch('/user',
+    //validación:
+    body('handle').notEmpty().withMessage('El handle no puede ir vacío'),
+    body('description').notEmpty().withMessage('La descripción no puede ir vacía'),
+    //el middleware
+    handleInputErrors,
+    authenticate,
+    updateProfile
+)
+
+router.post('user/image', authenticate, uploadImage)
 
 export default router
