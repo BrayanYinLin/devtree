@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const tabs = [
     { name: 'Links', href: '/admin', icon: BookmarkSquareIcon },
-    { name: 'Mi Perfil', href: '/admin/profile', icon: UserIcon },
+    { name: 'Mi Perfil', href: '/admin/profile', icon: UserIcon }
 ]
 
 function classNames(...classes: string[]) {
