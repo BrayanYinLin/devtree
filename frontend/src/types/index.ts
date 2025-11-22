@@ -15,4 +15,12 @@ export type LoginForm = Pick<User, 'email'> & {
     password:string
 }
 
+export type SocialNetwork = {
+    id:number,
+    name:string,
+    url:string,
+    enable:boolean
+}
+
+export type DevTreeLink = Pick<SocialNetwork, 'name' | 'url' | 'enable'>
 export type ProfileForm = Pick<User, 'handle' | 'description'>
