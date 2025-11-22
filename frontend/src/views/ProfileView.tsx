@@ -8,7 +8,6 @@ import ErrorMessage from '../components/ErrorMessage'
 export function ProfileView() {
   const queryClient = useQueryClient()
   const data: User = queryClient.getQueryData(['user'])!
-  //console.log(data)
 
   const {
     register,
@@ -56,7 +55,11 @@ export function ProfileView() {
   }
 
   const handleUserProfileForm = (formData: ProfileForm) => {
-    updateProfileMutation.mutate(formData)
+    const user: User = queryClient.getQueryData(['user'])!
+    user.description = formData.description
+    user.handle = formData.handle
+
+    updateProfileMutation.mutate(user)
   }
 
   return (
