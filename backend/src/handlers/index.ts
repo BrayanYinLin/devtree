@@ -1,3 +1,4 @@
+
 import {Request, Response} from 'express'
 import {validationResult} from 'express-validator'
 import User from "../models/User"
@@ -8,6 +9,8 @@ import { generateJWT } from '../utils/jwt'
 import formidable from 'formidable'
 import cloudinary from '../config/cloudinary'
 import { v4 as uuid} from 'uuid'
+
+
 
 export const createAccount = async(req: Request, res: Response)=>{
 
@@ -89,7 +92,7 @@ export const uploadImage = async(req: Request, res: Response) => {
 
             if(result){
                 if(result){
-                    req.user.iamge = result.secure_url
+                    req.user.image = result.secure_url
                     await req.user.save()
                     res.json({image: result.secure_url})
                 }
