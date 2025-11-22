@@ -5,8 +5,11 @@ import type { LoginForm } from '../types'
 import api from '../config/axios'
 import { toast } from 'sonner'
 import { isAxiosError } from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export default function LoginView() {
+  const navigate = useNavigate()
+
   const initialValues: LoginForm = {
     email: '',
     password: ''
@@ -24,6 +27,8 @@ export default function LoginView() {
       const { data } = await api.post('/auth/login', formData)
       toast.success(data)
       localStorage.setItem('AUTH_TOKEN', data)
+
+      navigate('/admin/')
     } catch (error) {
       if (isAxiosError(error) && error.response) {
         toast.error(error.response?.data.error)
